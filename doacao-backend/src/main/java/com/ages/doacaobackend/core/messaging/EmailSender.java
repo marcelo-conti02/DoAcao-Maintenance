@@ -31,7 +31,12 @@ public class EmailSender {
         headers.add("password", password);
         EmailEntity emailBody = new EmailEntity(user, message, subject, recipient);
         HttpEntity<EmailEntity> email = new HttpEntity<EmailEntity>(emailBody, headers);
-        template.exchange(url, HttpMethod.POST, email, ResponseEntity.class);
+        try {
+            ResponseEntity<String> response = template.exchange(url, HttpMethod.POST, email, String.class);
+            System.out.println("Response: " + response.getStatusCode());
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to send email", e);
+        }
     }
-
 }

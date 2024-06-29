@@ -39,7 +39,7 @@ public class EmailService {
      */
 
     public void sendEmail(final EmailShippingRequest request, final String password) throws MessagingException, DecoderException {
-        final EmailSender sender = new EmailSender(request.getUser(), crypter.decode(password)); 
+        final EmailSender sender = new EmailSender(request.getUser(), password); 
         MimeMessage message = new MimeMessage(sender.getSession());
         message.setFrom(new InternetAddress(request.getUser()));
         message.addRecipient(TO, new InternetAddress(request.getRecipient()));

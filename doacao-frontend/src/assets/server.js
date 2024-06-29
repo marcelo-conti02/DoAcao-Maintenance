@@ -4,7 +4,7 @@ const URLS = {
 };
 
 const server = {
-    url: URLS.HML
+    url: URLS.LOCAL
 }
 
 export default server;
