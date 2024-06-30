@@ -18,7 +18,7 @@ import java.util.List;
 
 @Repository
 public class UserRepository {
-    
+
     @Autowired
     UserOperationRepository operationRepository;
 
@@ -35,42 +35,46 @@ public class UserRepository {
         List<User> userList = operationRepository.findAll();
         UserResponse dto = new UserResponse();
 
-        for(User user : userList) {
-            if(user.getLogin().equals(request.getLogin()) && user.getPassword().equals(user.getPassword())) {
-                if(user.getIsAdmin()) {
+        for (User user : userList) {
+            if (user.getLogin().equals(request.getLogin()) && user.getPassword().equals(request.getPassword())) {
+                if (user.getIsAdmin()) {
                     AdminDTO admin = adminService.getAdminByUser(user.getId());
 
                     dto.withId_Admin(admin.getId_adm())
-                       .withId_User(user.getId())
-                       .withIsAdmin(user.getIsAdmin())
-                       .withName(admin.getName())
-                       .withEmail(admin.getEmail());
-                }
-                else {
+                            .withId_User(user.getId())
+                            .withIsAdmin(user.getIsAdmin())
+                            .withName(admin.getName())
+                            .withEmail(admin.getEmail());
+                } else {
                     Institution institution = institutionService.findByUser(user.getId());
 
+                    if (institution.getStatus().getCodigo() != "A") {
+                        System.out.println("Acesso negado");
+                        return dto;
+                    }
+
                     dto.withId_User(user.getId())
-                       .withId_Institution(institution.getId_institution())
-                       .withCnpj(institution.getCnpj())
-                       .withName(institution.getName())
-                       .withPhone(institution.getPhone())
-                       .withWhatsapp(institution.getWhatsapp())
-                       .withEmail(institution.getEmail())
-                       .withStreet(institution.getStreet())
-                       .withCity(institution.getCity())
-                       .withState(institution.getState());
+                            .withId_Institution(institution.getId_institution())
+                            .withCnpj(institution.getCnpj())
+                            .withName(institution.getName())
+                            .withPhone(institution.getPhone())
+                            .withWhatsapp(institution.getWhatsapp())
+                            .withEmail(institution.getEmail())
+                            .withStreet(institution.getStreet())
+                            .withCity(institution.getCity())
+                            .withState(institution.getState());
                 }
             }
         }
 
         return dto;
-    } 
-    
-    public User createUser(UserRequest user) throws EntityNotFoundException{
-        User usuario = new User().withLogin(user.getLogin())
-                                .withPassword(user.getPassword())
-                                .withIsAdmin(false);
+    }
 
-        return operationRepository.save(usuario);              
+    public User createUser(UserRequest user) throws EntityNotFoundException {
+        User usuario = new User().withLogin(user.getLogin())
+                .withPassword(user.getPassword())
+                .withIsAdmin(false);
+
+        return operationRepository.save(usuario);
     }
 }

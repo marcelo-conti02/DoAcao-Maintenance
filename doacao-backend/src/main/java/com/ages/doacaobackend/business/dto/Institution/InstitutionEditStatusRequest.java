@@ -6,7 +6,6 @@ import javax.validation.constraints.NotNull;
 public class InstitutionEditStatusRequest {
 
     @NotNull(message = "Id não pode ser nulo")
-    @NotBlank(message = "Id não pode estar em branco")
     private Integer id;
 
     @NotNull(message = "Status não pode ser nulo")
