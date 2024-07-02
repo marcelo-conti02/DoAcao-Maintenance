@@ -206,4 +206,11 @@ public class InstitutionRepository {
 
 
     }
+
+    public List<String> listInstitutionCities() {
+        return operationRepository.findAll().stream()
+                .map(Institution::getCity)
+                .distinct()
+                .collect(Collectors.toList());
+    }
 }

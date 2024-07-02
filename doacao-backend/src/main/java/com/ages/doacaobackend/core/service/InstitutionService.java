@@ -57,4 +57,8 @@ public class InstitutionService {
     public Institution getPureInstitution(int id) throws EntityNotFoundException {
         return institutionRepository.getPureInstitution(id);
     }
+
+    public List<String> listInstitutionCities() {
+        return institutionRepository.listInstitutionCities();
+    }
 }

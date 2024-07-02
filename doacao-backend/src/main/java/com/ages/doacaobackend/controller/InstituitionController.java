@@ -37,7 +37,8 @@ public class InstituitionController {
     }
 
     @PostMapping
-    public ResponseEntity<InstitutionResponse> createInstitution(@RequestBody InstitutionRequest request) throws EntityNotFoundException, ExistingCNPJException, MalformedEntityException, ExistingUserException {
+    public ResponseEntity<InstitutionResponse> createInstitution(@RequestBody InstitutionRequest request)
+            throws EntityNotFoundException, ExistingCNPJException, MalformedEntityException, ExistingUserException {
         return new ResponseEntity<InstitutionResponse>(institutionService.createInstitution(request),
                 HttpStatus.CREATED);
     }
@@ -56,8 +57,14 @@ public class InstituitionController {
 
     @PostMapping("/solicitation")
     public ResponseEntity<?> institutionSolicitation(
-            @RequestBody InstitutionEditStatusRequest editStatusRequest) throws EntityNotFoundException, MalformedEntityException {
+            @RequestBody InstitutionEditStatusRequest editStatusRequest)
+            throws EntityNotFoundException, MalformedEntityException {
         institutionService.editStatus(editStatusRequest);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/cities")
+    public ResponseEntity<List<String>> listInstitutionCities() {
+        return ok(institutionService.listInstitutionCities());
     }
 }
