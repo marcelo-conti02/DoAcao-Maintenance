@@ -93,5 +93,15 @@ public class ProductOrderController {
     public ResponseEntity<ProductOrderListResponse> editProductOrder(@RequestBody ProductOrderListResponse editRequest) throws EntityNotFoundException {
         return ok(productOrderService.editProductOrder(editRequest));
     }
+
+    @GetMapping("/city/{orderId}")
+    public ResponseEntity<String> getOrderCity(@PathVariable int orderId) {
+        String city = productOrderDetailsService.findCityByOrderId(orderId);
+        if (city != null) {
+            return ResponseEntity.ok(city);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
 

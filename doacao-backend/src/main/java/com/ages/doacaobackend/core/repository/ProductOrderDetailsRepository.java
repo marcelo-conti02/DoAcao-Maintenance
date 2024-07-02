@@ -170,4 +170,9 @@ public class ProductOrderDetailsRepository {
     public ProductDetailsOrder findById(int orderId) throws EntityNotFoundException {
         return operationRepository.findById(orderId).orElseThrow(() -> new EntityNotFoundException("Pedido não encontrado"));
     }
+
+    public String findCityByOrderId(int orderId) {
+        ProductDetailsOrder order = operationRepository.findById(orderId).orElse(null);
+        return order != null ? order.getIdInstitution().getCity() : null;
+    }
 }

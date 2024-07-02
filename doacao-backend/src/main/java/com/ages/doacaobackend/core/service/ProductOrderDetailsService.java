@@ -66,4 +66,8 @@ public class ProductOrderDetailsService {
     public List<ProductOrderListResponse> findActivesByInstitution(int idInstitution){
         return productOrderRepository.findActivesByInstitution(idInstitution);
     }
+
+    public String findCityByOrderId(int orderId) {
+        return productOrderRepository.findCityByOrderId(orderId);
+    }
 }
