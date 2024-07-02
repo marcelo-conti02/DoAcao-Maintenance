@@ -12,6 +12,7 @@ const BASE_INSTITUTION = "institution/";
 const RESOURCES = {
   CREATE: BASE_INSTITUTION,
   INST_INFO: BASE_INSTITUTION,
+  CITIES: BASE_INSTITUTION + "cities"
 };
 
 const useInstitutionService = () => {
@@ -38,9 +39,19 @@ const useInstitutionService = () => {
       })
   }
 
+  const getCities = async () => {
+    return axios.get(RESOURCES.CITIES)
+      .then(result => { return result.data })
+      .catch(error => {
+        console.log(error);
+        return error;
+      })
+  }
+
   return useMemo(() => ({
     signup,
     getInstitutionInfo,
+    getCities,
   }), [])
 }
 

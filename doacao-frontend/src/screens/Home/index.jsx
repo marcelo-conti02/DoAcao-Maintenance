@@ -1,19 +1,21 @@
 import React, { useEffect, useState, useCallback } from 'react'
 
 import { Input, Tabs } from '../../components'
-import { useOrderService } from '../../services'
+import { useOrderService, useInstitutionService } from '../../services';
 import { OrdersListGroup } from './partials'
 import { MOCK_PRODUCT_ORDERS, MOCK_URGENT_PRODUCT_ORDERS, MOCK_SERVICE_ORDERS, MOCK_URGENT_SERVICE_ORDERS } from './mock'
 import { HomeScreen, FiltersContainers } from './styles'
 
 const Home = () => {
     const { getPublicProductOrders, getPublicServiceOrders } = useOrderService()
+    const { getCities } = useInstitutionService();
     const [tabsConfig, setTabsConfig] = useState([])
     const [regularProductOrders, setRegularProductOrders] = useState([])
     const [urgentProductOrders, setUrgentProductOrders] = useState([])
     const [regularServicesOrders, setRegularServicesOrders] = useState([])
     const [urgentServicesOrders, setUrgentServicesOrders] = useState([])
     const [showContent, setShowContent] = useState(false)
+    const [cities, setCities] = useState([]);
 
     const getProductOrders = async () => {
         const { data } = await getPublicProductOrders()
@@ -41,9 +43,18 @@ const Home = () => {
         ]).finally(() => setShowContent(true))
     }, [])
 
+    const loadCities = async () => {
+        const citiesData = await getCities();
+        setCities(citiesData);
+      }
+
     useEffect(() => {
         getData()
     }, [getData])
+
+    useEffect(() => {
+        loadCities();
+      }, [])
 
     useEffect(() => {
         setTabsConfig(
