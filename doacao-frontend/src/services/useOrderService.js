@@ -27,6 +27,24 @@ const useOrderService = () => {
       })
   }
 
+  const getCityByOrderId = async orderId => {
+    return axios.get(BASE_PRODUCT_ORDER + "cityById/" + orderId)
+      .then(result => result.data)
+      .catch(error => {
+        console.error('Erro ao buscar cidade do pedido:', error);
+        throw error;
+      });
+  }
+
+  const getOrdersByCity = async city => {
+    return axios.get(BASE_PRODUCT_ORDER + "city/" + city)
+      .then(result => result)
+      .catch(({ response: { data } }) => {
+        console.log(data.error)
+        return data
+      })
+  }
+
   const createServiceOrder = async order => {
     return axios.post(RESOURCES.SERVICE_ORDERS, order)
       .then(result => result)
@@ -97,7 +115,9 @@ const useOrderService = () => {
     createUrgentServiceOrder,
     createUrgentProductOrder,
     getActiveProductOrders,
-    getActiveServiceOrders
+    getActiveServiceOrders,
+    getCityByOrderId,
+    getOrdersByCity
   }), [])
 }
 

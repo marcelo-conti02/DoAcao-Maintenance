@@ -5,7 +5,7 @@ import { OrdersListGroup } from './partials';
 import { HomeScreen, FiltersContainers } from './styles';
 
 const Home = () => {
-  const { getPublicProductOrders, getPublicServiceOrders, getCityByOrderId } = useOrderService();
+  const { getPublicProductOrders, getPublicServiceOrders, getOrdersByCity } = useOrderService();
   const { getCities } = useInstitutionService();
   const [tabsConfig, setTabsConfig] = useState([]);
   const [regularProductOrders, setRegularProductOrders] = useState([]);
@@ -17,22 +17,36 @@ const Home = () => {
   const [selectedCity, setSelectedCity] = useState('');
 
   const getProductOrders = async () => {
-    const { data } = await getPublicProductOrders();
-    const filteredData = data.filter(({ orderId }) => !selectedCity || getCityByOrderId(orderId) === selectedCity);
+    let data;
+    if (selectedCity) {
+      const response = await getOrdersByCity(selectedCity);
+      console.log(response);
+      data = response.data;
+    } else {
+      const response = await getPublicProductOrders();
+      console.log(response);
+      data = response.data;
+    }
 
-    const urgentOrders = filteredData.filter(({ isUrgent }) => isUrgent);
-    const regularOrders = filteredData.filter(({ isUrgent }) => !isUrgent);
-    
+    const urgentOrders = data.filter(({ isUrgent }) => isUrgent);
+    const regularOrders = data.filter(({ isUrgent }) => !isUrgent);
+
     setRegularProductOrders(regularOrders);
     setUrgentProductOrders(urgentOrders);
   };
 
   const getServiceOrders = async () => {
-    const { data } = await getPublicServiceOrders();
-    const filteredData = data.filter(order => !selectedCity || order.city === selectedCity);
+    let data;
+    if (selectedCity) {
+      const response = await getOrdersByCity(selectedCity);  // Assuming you have a similar endpoint for service orders
+      data = response.data;
+    } else {
+      const response = await getPublicServiceOrders();
+      data = response.data;
+    }
 
-    const urgentOrders = filteredData.filter(({ isUrgent }) => isUrgent);
-    const regularOrders = filteredData.filter(({ isUrgent }) => !isUrgent);
+    const urgentOrders = data.filter(({ isUrgent }) => isUrgent);
+    const regularOrders = data.filter(({ isUrgent }) => !isUrgent);
 
     setRegularServicesOrders(regularOrders);
     setUrgentServicesOrders(urgentOrders);
@@ -46,8 +60,13 @@ const Home = () => {
   }, [selectedCity]);
 
   const loadCities = async () => {
-    const citiesData = await getCities();
-    setCities(citiesData);
+    try {
+      const response = await getCities();
+      setCities(response);
+    } catch (error) {
+      console.error('Failed to load cities:', error);
+      setCities([]);
+    }
   };
 
   useEffect(() => {
