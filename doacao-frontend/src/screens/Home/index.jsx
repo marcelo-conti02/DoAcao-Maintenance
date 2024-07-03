@@ -6,7 +6,7 @@ import { HomeScreen, FiltersContainers } from './styles';
 import { CenterFocusStrong } from '@material-ui/icons';
 
 const Home = () => {
-  const { getPublicProductOrders, getPublicServiceOrders, getOrdersByCity } = useOrderService();
+  const { getPublicProductOrders, getPublicServiceOrders, getOrdersByCity, getServiceOrdersByCity } = useOrderService();
   const { getCities } = useInstitutionService();
   const [tabsConfig, setTabsConfig] = useState([]);
   const [regularProductOrders, setRegularProductOrders] = useState([]);
@@ -39,7 +39,7 @@ const Home = () => {
   const getServiceOrders = async () => {
     let data;
     if (selectedCity) {
-      const response = await getOrdersByCity(selectedCity);  // Assuming you have a similar endpoint for service orders
+      const response = await getServiceOrdersByCity(selectedCity);
       data = response.data;
     } else {
       const response = await getPublicServiceOrders();

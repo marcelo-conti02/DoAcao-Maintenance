@@ -45,6 +45,15 @@ const useOrderService = () => {
       })
   }
 
+  const getServiceOrdersByCity = async city => {
+    return axios.get(BASE_SERVICE_ORDER + "city/" + city)
+      .then(result => result)
+      .catch(({ response: { data } }) => {
+        console.log(data.error)
+        return data
+      })
+  }
+
   const createServiceOrder = async order => {
     return axios.post(RESOURCES.SERVICE_ORDERS, order)
       .then(result => result)
@@ -117,7 +126,8 @@ const useOrderService = () => {
     getActiveProductOrders,
     getActiveServiceOrders,
     getCityByOrderId,
-    getOrdersByCity
+    getOrdersByCity,
+    getServiceOrdersByCity
   }), [])
 }
 
