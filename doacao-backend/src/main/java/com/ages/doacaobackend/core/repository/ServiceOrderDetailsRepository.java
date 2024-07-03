@@ -177,4 +177,35 @@ public class ServiceOrderDetailsRepository {
     public ServiceDetailsOrder findById(int orderId) throws EntityNotFoundException {
         return operationRepository.findById(orderId).orElseThrow(() -> new EntityNotFoundException("Pedido não encontrado"));
     }
+
+    public List<ServiceOrderListResponse> findAllByInstitutionCity(String city) {
+        List<ServiceDetailsOrder> listServiceDetailsOrder = operationRepository.findAllByInstitutionCity(city).stream().filter(x -> x.getStatus() == GeneralStatus.A).collect(Collectors.toList());
+        List<ServiceQuantityOrder> listServiceQuantityOrder = new ArrayList<>();
+        List<ServiceOrderListResponse> serviceOrderListResponse = new ArrayList<>();
+
+        for(ServiceDetailsOrder serviceDetailsOrder : listServiceDetailsOrder) {
+            listServiceQuantityOrder.addAll(quantityService.findAllQuantityServiceOrders(serviceDetailsOrder.getIdServiceDetailsOrder()));
+        }
+
+        for(ServiceDetailsOrder serviceDetailsOrder : listServiceDetailsOrder) {
+            serviceOrderListResponse.add(new ServiceOrderListResponse()
+                .withIdServiceOrder(serviceDetailsOrder.getIdServiceDetailsOrder())
+                .withIdInstitution(serviceDetailsOrder.getIdInstitution().getId_institution())
+                .withInstitutionName(serviceDetailsOrder.getIdInstitution().getName())
+                .withInstitutionDescription(serviceDetailsOrder.getIdInstitution().getDescription())
+                .withIsUrgent(serviceDetailsOrder.getIsUrgent())
+                .withCreatedTime(serviceDetailsOrder.getCreatedTime())
+                .withLimitDate(serviceDetailsOrder.getLimitDate())
+                .withServices(listServiceQuantityOrder.stream()
+                     .filter(x ->
+                         x.getIdServiceDetailsOrder().getStatus() == GeneralStatus.A &&
+                         x.getIdServiceDetailsOrder().getIdServiceDetailsOrder() == serviceDetailsOrder.getIdServiceDetailsOrder())
+                    .collect(Collectors.toList())
+                    .stream()
+                    .map(x -> new ServiceQuantityOrderResponse(x))
+                    .collect(Collectors.toList())));
+        }
+
+        return serviceOrderListResponse;
+    }
 }

@@ -1,5 +1,6 @@
 package com.ages.doacaobackend.core.service;
 
+import com.ages.doacaobackend.business.dto.ProductOrder.ProductOrderListResponse;
 import com.ages.doacaobackend.business.dto.ServiceOrder.ServiceOrderListResponse;
 import com.ages.doacaobackend.business.dto.ServiceOrder.ServiceOrderRequest;
 import com.ages.doacaobackend.business.entity.Institution;
@@ -65,5 +66,9 @@ public class ServiceOrderDetailsService {
 
     public List<ServiceOrderListResponse> findActivesByInstitution(int idInstitution) {
         return serviceOrderDetailsRepository.findActivesByInstitution(idInstitution);
+    }
+
+     public List<ServiceOrderListResponse> findAllByInstitutionCity(String city) {
+        return serviceOrderDetailsRepository.findAllByInstitutionCity(city);
     }
 }

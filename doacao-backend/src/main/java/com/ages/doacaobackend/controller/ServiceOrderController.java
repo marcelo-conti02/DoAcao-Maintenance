@@ -2,6 +2,7 @@ package com.ages.doacaobackend.controller;
 
 import com.ages.doacaobackend.business.dto.Interest.OrderInterestDTO;
 import com.ages.doacaobackend.business.dto.Interest.OrderInterestsDTO;
+import com.ages.doacaobackend.business.dto.ProductOrder.ProductOrderListResponse;
 import com.ages.doacaobackend.business.dto.Service.ServiceOrderServiceResponse;
 import com.ages.doacaobackend.business.dto.ServiceOrder.ServiceOrderListResponse;
 import com.ages.doacaobackend.business.dto.ServiceOrder.ServiceOrderRequest;
@@ -95,5 +96,10 @@ public class ServiceOrderController {
     @GetMapping("/actives/institution/{idInstitution}")
     public ResponseEntity<List<ServiceOrderListResponse>> getActivesByInstitution(@PathVariable int idInstitution){ //TODO mapear quantidade
         return ok(serviceOrderDetailsService.findActivesByInstitution(idInstitution));
+    }
+
+    @GetMapping("/city/{city}")
+    public List<ServiceOrderListResponse> getServiceOrdersByCity(@PathVariable String city) {
+        return serviceOrderDetailsService.findAllByInstitutionCity(city);
     }
 }

@@ -20,4 +20,6 @@ public interface ServiceOrderDetailsOperationRepository extends JpaRepository<Se
     @Query("UPDATE ServiceDetailsOrder s SET s.status = :status WHERE s.idServiceDetailsOrder = :orderId AND s.status = 'P' ")
     void updateStatusById(@Param("status") GeneralStatus status, @Param("orderId") int orderId);
     
+    @Query("SELECT p FROM ServiceDetailsOrder p WHERE p.idInstitution.city = :city")
+    List<ServiceDetailsOrder> findAllByInstitutionCity(@Param("city") String city);
 }
