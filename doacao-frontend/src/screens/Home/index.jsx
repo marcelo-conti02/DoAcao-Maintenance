@@ -3,6 +3,7 @@ import { Input, Tabs } from '../../components';
 import { useOrderService, useInstitutionService } from '../../services';
 import { OrdersListGroup } from './partials';
 import { HomeScreen, FiltersContainers } from './styles';
+import { CenterFocusStrong } from '@material-ui/icons';
 
 const Home = () => {
   const { getPublicProductOrders, getPublicServiceOrders, getOrdersByCity } = useOrderService();
@@ -101,7 +102,8 @@ const Home = () => {
       {showContent && (
         <>
           <FiltersContainers>
-            <select onChange={handleCityChange} value={selectedCity}>
+            <h4 style={{margin:'15px'}}>Filtrar pedidos por cidade:</h4>
+            <select style={{width:'10vw'}} onChange={handleCityChange} value={selectedCity}>
               <option value="">Todas as cidades</option>
               {cities.map((city, index) => (
                 <option key={index} value={city}>
