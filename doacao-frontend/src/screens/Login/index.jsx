@@ -88,7 +88,7 @@ const Login = () => {
                         Além de preencher o formulário, é necessário o envio do estatuto da instiutição para o email: doacao.caridade.amor@gmail.com
                     </Description>
                     <Description style={{ fontWeight: 700 }}>
-                        Obrigada, Gabriela.
+                        Obrigada. Gabriela
                     </Description>
                     <SignUpButton onClick={goToRegistration} variant='outlined'>Queremos uma conta</SignUpButton>
                 </SignUpBlock>
