@@ -175,4 +175,8 @@ public class ProductOrderDetailsRepository {
         ProductDetailsOrder order = operationRepository.findById(orderId).orElse(null);
         return order != null ? order.getIdInstitution().getCity() : null;
     }
+
+    public List<ProductDetailsOrder> findAllByInstitutionCity(String city) {
+        return operationRepository.findAllByInstitutionCity(city);
+    }
 }

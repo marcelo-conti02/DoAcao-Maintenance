@@ -20,4 +20,7 @@ public interface ProductOrderDetailsOperationRepository extends JpaRepository<Pr
     @Modifying
     @Query("UPDATE ProductDetailsOrder p SET p.status = :status WHERE p.idProductDetailsOrder = :orderId AND p.status = 'P' ")
     void updateStatusById(@Param("status") GeneralStatus status, @Param("orderId") int orderId);
+
+    @Query("SELECT p FROM ProductDetailsOrder p WHERE p.idInstitution.city = :city")
+    List<ProductDetailsOrder> findAllByInstitutionCity(@Param("city") String city);
 }

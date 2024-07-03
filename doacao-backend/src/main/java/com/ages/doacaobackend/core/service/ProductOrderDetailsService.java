@@ -70,4 +70,8 @@ public class ProductOrderDetailsService {
     public String findCityByOrderId(int orderId) {
         return productOrderRepository.findCityByOrderId(orderId);
     }
+
+    public List<ProductDetailsOrder> findAllByInstitutionCity(String city) {
+        return productOrderRepository.findAllByInstitutionCity(city);
+    }
 }

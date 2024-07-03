@@ -9,9 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.ages.doacaobackend.business.dto.donation.DonationInterestRequest;
+import com.ages.doacaobackend.business.entity.ProductDetailsOrder;
 import com.ages.doacaobackend.business.enums.GeneralStatus;
 import com.ages.doacaobackend.business.exception.*;
-
 
 import java.util.Collections;
 import java.util.List;
@@ -30,7 +30,7 @@ public class ProductOrderController {
 
     @Autowired
     DonationInterestService donationInterestService;
-    
+
     @Autowired
     ProductOrderService orderService;
 
@@ -39,62 +39,71 @@ public class ProductOrderController {
 
     @PostMapping
     public ResponseEntity<ProductOrderResponse> createProductOrder(@RequestBody ProductOrderRequest productOrderRequest)
-            throws EntityNotFoundException, ExistingOrderException, DuplicateProductException, ExcedeedLimitProductException, WrongProductUnitMeasurement {
+            throws EntityNotFoundException, ExistingOrderException, DuplicateProductException,
+            ExcedeedLimitProductException, WrongProductUnitMeasurement {
         return ok(productOrderService.createProductOrder(productOrderRequest));
     }
 
     @GetMapping
-    public ResponseEntity<List<ProductOrderListResponse>> findAllServiceOrders(){
+    public ResponseEntity<List<ProductOrderListResponse>> findAllServiceOrders() {
         return ok(productOrderDetailsService.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<List<ProductOrderProductResponse>> findAllProductsInOrder(@PathVariable int id){
+    public ResponseEntity<List<ProductOrderProductResponse>> findAllProductsInOrder(@PathVariable int id) {
         return ok(orderService.getAllProductsInOrder(id));
     }
 
     @PostMapping("/urgent")
-    public ResponseEntity<ProductOrderResponse> createUrgentProductOrder(@RequestBody ProductOrderRequest productOrderRequest)
-            throws EntityNotFoundException, ExistingOrderException, DuplicateProductException, ExcedeedLimitProductException, WrongProductUnitMeasurement, NotUrgentRequestException {
+    public ResponseEntity<ProductOrderResponse> createUrgentProductOrder(
+            @RequestBody ProductOrderRequest productOrderRequest)
+            throws EntityNotFoundException, ExistingOrderException, DuplicateProductException,
+            ExcedeedLimitProductException, WrongProductUnitMeasurement, NotUrgentRequestException {
         return ok(productOrderService.createUrgentProductOrder(productOrderRequest));
     }
 
     @PostMapping("/registerInterest")
-    public ResponseEntity<?> registerInterestForDonation(@RequestBody DonationInterestRequest donatationInterestRequest) throws EntityNotFoundException, MalformedEntityException {
+    public ResponseEntity<?> registerInterestForDonation(@RequestBody DonationInterestRequest donatationInterestRequest)
+            throws EntityNotFoundException, MalformedEntityException {
         donationInterestService.notifyInterest(donatationInterestRequest, false);
         interestService.saveProductOrderInterest(donatationInterestRequest);
         return ok(null);
     }
 
     @GetMapping("/interest/{uuid}")
-    public ResponseEntity<List<String>> findAllProductResponseInOrder(@PathVariable int uuid){
+    public ResponseEntity<List<String>> findAllProductResponseInOrder(@PathVariable int uuid) {
         return ok(productOrderService.findAllProductResponseInOrder(uuid));
     }
 
     @GetMapping("/interest/{id}/details")
     public ResponseEntity<List<OrderInterestDTO>> findAllInterestsInOrder(@PathVariable int id) {
         List<OrderInterestDTO> list = interestService.listAllProductInterestsInOrder(id);
-        if (list.isEmpty()) return new ResponseEntity<>(Collections.emptyList(), HttpStatus.NOT_FOUND);
+        if (list.isEmpty())
+            return new ResponseEntity<>(Collections.emptyList(), HttpStatus.NOT_FOUND);
         return ok(list);
     }
 
     @PatchMapping("/")
-    public ResponseEntity<Boolean> updateStatus(@RequestParam("status") GeneralStatus status, @RequestParam("orderId") int orderId) {
+    public ResponseEntity<Boolean> updateStatus(@RequestParam("status") GeneralStatus status,
+            @RequestParam("orderId") int orderId) {
         productOrderDetailsService.updateStatus(status, orderId);
         return ok(true);
     }
-    
+
     @GetMapping("/actives/institution/{idInstitution}")
-    public ResponseEntity<List<ProductOrderListResponse>> getActivesByInstitution(@PathVariable int idInstitution){ //TODO mapear quantidade
+    public ResponseEntity<List<ProductOrderListResponse>> getActivesByInstitution(@PathVariable int idInstitution) { // TODO
+                                                                                                                     // mapear
+                                                                                                                     // quantidade
         return ok(productOrderDetailsService.findActivesByInstitution(idInstitution));
     }
 
     @PostMapping("/editProductOrder")
-    public ResponseEntity<ProductOrderListResponse> editProductOrder(@RequestBody ProductOrderListResponse editRequest) throws EntityNotFoundException {
+    public ResponseEntity<ProductOrderListResponse> editProductOrder(@RequestBody ProductOrderListResponse editRequest)
+            throws EntityNotFoundException {
         return ok(productOrderService.editProductOrder(editRequest));
     }
 
-    @GetMapping("/city/{orderId}")
+    @GetMapping("/cityById/{orderId}")
     public ResponseEntity<String> getOrderCity(@PathVariable int orderId) {
         String city = productOrderDetailsService.findCityByOrderId(orderId);
         if (city != null) {
@@ -103,5 +112,9 @@ public class ProductOrderController {
             return ResponseEntity.notFound().build();
         }
     }
-}
 
+    @GetMapping("/city/{city}")
+    public List<ProductDetailsOrder> getOrdersByCity(@PathVariable String city) {
+        return productOrderDetailsService.findAllByInstitutionCity(city);
+    }
+}
