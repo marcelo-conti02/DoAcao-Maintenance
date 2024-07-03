@@ -176,7 +176,34 @@ public class ProductOrderDetailsRepository {
         return order != null ? order.getIdInstitution().getCity() : null;
     }
 
-    public List<ProductDetailsOrder> findAllByInstitutionCity(String city) {
-        return operationRepository.findAllByInstitutionCity(city);
+    public List<ProductOrderListResponse> findAllByInstitutionCity(String city) {
+        List<ProductDetailsOrder> listProductDetailsOrder = operationRepository.findAllByInstitutionCity(city);
+        listProductDetailsOrder = listProductDetailsOrder.stream().filter(x -> x.getStatus() == GeneralStatus.A).collect(Collectors.toList());
+        List<ProductQuantityOrder> listProductQuantityOrder = new ArrayList<>();
+        List<ProductOrderListResponse> productOrderListResponse = new ArrayList<>();
+
+        for (ProductDetailsOrder productDetailsOrder : listProductDetailsOrder) {
+            listProductQuantityOrder.addAll(quantityService.findAllProductQuantityOrder(productDetailsOrder.getIdProductDetailsOrder()));
+        }
+
+        for (ProductDetailsOrder productDetailsOrder : listProductDetailsOrder) {
+            productOrderListResponse.add(new ProductOrderListResponse().withIdProductOrder(productDetailsOrder.getIdProductDetailsOrder())
+                .withIdInstitution(productDetailsOrder.getIdInstitution().getId_institution())
+                .withInstitutionName(productDetailsOrder.getIdInstitution().getName())
+                .withInstitutionDescription(productDetailsOrder.getIdInstitution().getDescription())
+                .withIsUrgent(productDetailsOrder.getIsUrgent())
+                .withCreatedTime(productDetailsOrder.getCreatedTime())
+                .withLimitDate(productDetailsOrder.getLimitDate())
+                .withItens(listProductQuantityOrder.stream()
+                        .filter(x ->
+                                x.getIdProductDetailsOrder().getStatus() == GeneralStatus.A &&
+                                 x.getIdProductDetailsOrder().getIdProductDetailsOrder() == productDetailsOrder.getIdProductDetailsOrder())
+                        .collect(Collectors.toList())
+                        .stream()
+                        .map(x -> new ProductQuantityOrderResponse().fromEntity(x))
+                        .collect(Collectors.toList())));
+        }
+
+        return productOrderListResponse;
     }
 }

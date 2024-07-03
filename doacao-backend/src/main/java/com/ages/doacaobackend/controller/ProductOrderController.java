@@ -114,7 +114,7 @@ public class ProductOrderController {
     }
 
     @GetMapping("/city/{city}")
-    public List<ProductDetailsOrder> getOrdersByCity(@PathVariable String city) {
+    public List<ProductOrderListResponse> getOrdersByCity(@PathVariable String city) {
         return productOrderDetailsService.findAllByInstitutionCity(city);
     }
 }

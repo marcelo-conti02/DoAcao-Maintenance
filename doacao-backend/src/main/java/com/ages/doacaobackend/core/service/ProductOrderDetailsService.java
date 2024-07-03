@@ -71,7 +71,7 @@ public class ProductOrderDetailsService {
         return productOrderRepository.findCityByOrderId(orderId);
     }
 
-    public List<ProductDetailsOrder> findAllByInstitutionCity(String city) {
+    public List<ProductOrderListResponse> findAllByInstitutionCity(String city) {
         return productOrderRepository.findAllByInstitutionCity(city);
     }
 }
