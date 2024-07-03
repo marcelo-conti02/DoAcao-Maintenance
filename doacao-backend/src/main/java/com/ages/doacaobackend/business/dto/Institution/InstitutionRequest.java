@@ -25,8 +25,6 @@ public class InstitutionRequest {
     @NotBlank(message = "Telefone não pode estar em branco")
     private String phone;
 
-    @NotNull(message = "Whatsapp não pode ser nulo")
-    @NotBlank(message = "Whatsapp não pode estar em branco")
     private String whatsapp;
 
     @NotNull(message = "Email não pode ser nulo")
@@ -54,8 +52,6 @@ public class InstitutionRequest {
 
     private String website;
 
-    @NotNull(message = "Rede social não pode ser nulo")
-    @NotBlank(message = "Rede social não pode estar em branco")
     private String socialMedia;
 
     private String otherSocialMedia;

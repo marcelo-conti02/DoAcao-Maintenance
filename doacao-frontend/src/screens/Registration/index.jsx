@@ -184,7 +184,7 @@ const Registration = () => {
                         </ContainerChildrenMargin>
                         <Container flex="1" direction="column">
                             <Input onChange={onChange} {...form.description} type="text" variant="outlined" multiline minRows={9} />
-                            <Paragraph>Descreva aqui brevemente sua instituição. Note que não viabilizamos doações para animais no momento.</Paragraph>
+                            <Paragraph>Descreva aqui brevemente sua instituição.</Paragraph>
                         </Container>
                     </RegistrationFormFieldSet>
                 </RegistrationForm>
