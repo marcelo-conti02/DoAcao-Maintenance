@@ -52,6 +52,7 @@ const LoginButton = styled(Button)`
     @media screen and (max-width: 500px) {
         width: 100%;
     }
+    
 `
 
 const ForgotPasswordLink = styled(Link)`

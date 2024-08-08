@@ -5,7 +5,6 @@ import com.doacao.emailsender.domain.data.EmailSender;
 import com.doacao.emailsender.domain.data.EmailShippingRequest;
 
 import org.apache.commons.codec.DecoderException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;

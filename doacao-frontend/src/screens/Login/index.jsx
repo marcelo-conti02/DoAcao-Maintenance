@@ -72,7 +72,6 @@ const Login = () => {
                     <Input type='text' label='E-mail' variant="outlined" placeholder="Insira seu email de cadastro" onChange={(target) => setUserData({ ...userData, email: target.value })} />
                     <Input type='password' label="Senha" variant="outlined" placeholder="Insira sua senha" onChange={(target) => setUserData({ ...userData, password: target.value })} />
                     <ActionsContainer>
-                        <ForgotPasswordLink>Esqueci minha senha</ForgotPasswordLink>
                         <LoginButton variant='contained' onClick={handleLoginRequest}>Login</LoginButton>
                     </ActionsContainer>
                 </LoginForm>
