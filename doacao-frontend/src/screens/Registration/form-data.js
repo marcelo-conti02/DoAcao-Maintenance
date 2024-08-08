@@ -77,7 +77,7 @@ const FORM_DATA = {
     checkboxTerms: {
         name: 'checkboxTerms',
         value: '',
-        checked: false,
+        checked: true,
         label: 'Concordo com os termos de uso e com a política de privacidade da plataforma',
         validate: (_, __, checked) => {
             if (!checked) {

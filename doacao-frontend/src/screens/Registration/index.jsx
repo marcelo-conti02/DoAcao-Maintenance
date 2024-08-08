@@ -136,9 +136,9 @@ const Registration = () => {
                                 <Checkbox onChange={onChange} {...form.checkboxRepresentation} id='checkbox-representacao' />
                             </RegistrationFormPasswordParagraph>
 
-                            <RegistrationFormPasswordParagraph>
+                            {/* <RegistrationFormPasswordParagraph>
                                 <Checkbox onChange={onChange} {...form.checkboxTerms} id='checkbox-termos' />
-                            </RegistrationFormPasswordParagraph>
+                            </RegistrationFormPasswordParagraph>*/}
 
                         </RegistrationFormPasswordGroup>
                     </RegistrationFormFieldSet>
