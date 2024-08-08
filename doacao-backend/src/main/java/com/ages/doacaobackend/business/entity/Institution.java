@@ -61,7 +61,7 @@ public class Institution {
     @Column(name = "other_social_media")
     private String otherSocialMedia;
 
-    @Column(name = "description")
+    @Column(name = "description", length = 2000)
     private String description;
 
     @Column(name = "cep")
