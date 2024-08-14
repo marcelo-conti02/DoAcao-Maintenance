@@ -58,7 +58,7 @@ public class DonationInterestService {
                 NOTIFY_INTEREST_IN_DONATION_MESSAGE,
                 request.getName(),
                 getDonationInterests(request.getItemsAndQuantities()),
-                isService ? "serviços" : "items",
+                isService ? "serviços" : "itens",
                 request.getOrderId(),
                 getCommunicationOptions(request)
             );
