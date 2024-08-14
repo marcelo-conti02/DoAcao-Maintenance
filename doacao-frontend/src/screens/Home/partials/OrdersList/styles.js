@@ -86,8 +86,7 @@ const CardDescription = styled.p`
 `
 
 const CardMoreItemsMessage = styled.p`
-    font-size: 12px;
-    text-decoration: underline;
+    font-size: 12px;    
     margin: 0;
     height: 40px;
     display: flex;
