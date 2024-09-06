@@ -139,7 +139,7 @@ const Request = () => {
 
             } else if (state.type === "serviço") {
                 const services = requestData.items.map(item => ({ idService: item.idService.id_Service, quantitySolicited: item.quantityServiceSolicited, description: item.description, unitMeasurement: item.unit }))
-                if (state.isUrgent) data = await createUrgentServiceOrder({ services, idInstitution: userInfo.id_institution, isUrgent: state.isUrgent })
+                if (state.isUrgent) data = await createUrgentServiceOrder({ services, idInstitution: userInfo.id_institution, isUrgent: state.isUrgent, description: description })
                 else data = await createServiceOrder({ services, idInstitution: userInfo.id_institution, isUrgent: state.isUrgent })
             }
         }

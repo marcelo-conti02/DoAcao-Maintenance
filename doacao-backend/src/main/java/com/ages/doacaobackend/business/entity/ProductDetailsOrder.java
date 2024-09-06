@@ -42,7 +42,7 @@ public class ProductDetailsOrder {
     @Column(name = "status")
     private GeneralStatus status;
 
-    @Column(name = "description")
+    @Column(name = "description", length = 1000)
     private String description;
 
 

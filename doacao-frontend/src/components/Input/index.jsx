@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyledInput } from './styles'
 
-const STANDARD_MAX_LENGTH = 99
+const STANDARD_MAX_LENGTH = 1000
 
 const Input = ({ sendToBackend, validate, onChange, ...rest }) => {
     const handleChange = (target) => {
