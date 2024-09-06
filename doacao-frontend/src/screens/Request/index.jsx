@@ -134,8 +134,8 @@ const Request = () => {
         } else if (state.toEdit === false) {
             if (state.type === 'produto') {
                 const itens = requestData.items.map(item => ({ idItem: item.idItem.idItem, quantitySolicited: item.quantityProductsSolicited, description: item.description, unitMeasurement: item?.idItem?.unitMeasurement }))
-                if (state.isUrgent) data = await createUrgentProductOrder({ items: itens, idInstitution: userInfo.id_institution, isUrgent: state.isUrgent })
-                else data = await createProductOrder({ items: itens, idInstitution: userInfo.id_institution, isUrgent: state.isUrgent })
+                if (state.isUrgent) data = await createUrgentProductOrder({ items: itens, idInstitution: userInfo.id_institution, isUrgent: state.isUrgent, description: description })
+                else data = await createProductOrder({ items: itens, idInstitution: userInfo.id_institution, isUrgent: state.isUrgent})
 
             } else if (state.type === "serviço") {
                 const services = requestData.items.map(item => ({ idService: item.idService.id_Service, quantitySolicited: item.quantityServiceSolicited, description: item.description, unitMeasurement: item.unit }))
